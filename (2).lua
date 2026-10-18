@@ -15,13 +15,13 @@ sg.Parent = CoreGui
 
 -- Das Hauptfenster (Schwarz mit rotem Rand)
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 250, 0, 350) -- Leicht erhöht für mehr Platz
+frame.Size = UDim2.new(0, 250, 0, 350)
 frame.Position = UDim2.new(0.4, 0, 0.3, 0)
 frame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 frame.BorderColor3 = Color3.fromRGB(255, 0, 0)
 frame.BorderSizePixel = 2
 frame.Active = true
-frame.Draggable = true -- Macht das Fenster verschiebbar
+frame.Draggable = true
 frame.Parent = sg
 
 -- Titel-Zeile
@@ -35,23 +35,23 @@ title.TextSize = 20
 title.Font = Enum.Font.SourceSansBold
 title.Parent = frame
 
--- Liste für automatische Anordnung der Buttons
-local layout = Instance.new("UIListLayout")
-layout.Padding = UDim.new(0, 5)
-layout.SortOrder = Enum.SortOrder.LayoutOrder
-
--- Container für Buttons (ScrollingFrame, falls es viele werden)
+-- Container für Buttons (ScrollingFrame)
 local container = Instance.new("ScrollingFrame")
 container.Size = UDim2.new(1, -10, 1, -50)
 container.Position = UDim2.new(0, 5, 0, 45)
 container.BackgroundTransparency = 1
-container.CanvasSize = UDim2.new(0, 0, 0, 0) -- Passt sich automatisch an
+container.CanvasSize = UDim2.new(0, 0, 0, 0)
 container.AutomaticCanvasSize = Enum.AutomaticCanvasSize.Y
 container.ScrollBarThickness = 4
 container.Parent = frame
+
+-- Liste für automatische Anordnung (Wird dem Container als Parent übergeben)
+local layout = Instance.new("UIListLayout")
+layout.Padding = UDim.new(0, 5)
+layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Parent = container
 
--- FUNKTION: Buttons einfach erstellen
+-- FUNKTION: Buttons erstellen
 local function createButton(text, callback)
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(1, 0, 0, 35)
@@ -85,7 +85,7 @@ createButton("Mega Jump", function()
     end
 end)
 
--- 3. Fast Spin (Eigener Charakter wirbelt im Kreis)
+-- 3. Fast Spin
 local spinning = false
 createButton("Fast Spin (Toggle)", function()
     spinning = not spinning
@@ -97,7 +97,7 @@ createButton("Fast Spin (Toggle)", function()
     end)
 end)
 
--- 4. Infinite Jump (Unendlich oft in der Luft springen)
+-- 4. Infinite Jump
 local infJumpActive = false
 createButton("Infinite Jump (Toggle)", function()
     infJumpActive = not infJumpActive
@@ -109,19 +109,19 @@ UserInputService.JumpRequest:Connect(function()
     end
 end)
 
--- 5. Low Gravity (Verändert den Fall-Effekt)
+-- 5. Low Gravity
 local normalGravity = workspace.Gravity
 local lowGravActive = false
 createButton("Low Gravity (Toggle)", function()
     lowGravActive = not lowGravActive
     if lowGravActive then
-        workspace.Gravity = 30 -- Standard ist meistens 196.2
+        workspace.Gravity = 30
     else
         workspace.Gravity = normalGravity
     end
 end)
 
--- 6. Visuelle Nacht (Lokale Lichtänderung)
+-- 6. Visuelle Nacht
 createButton("Set Night Time", function()
     Lighting.ClockTime = 0
 end)
@@ -142,9 +142,8 @@ createButton("Red Skybox", function()
 end)
 
 -- ========================================================
--- MENÜ-STEUERUNG (EIN-/AUSBLENDEN)
+-- MENÜ-STEUERUNG
 -- ========================================================
--- Menü mit der Taste "Insert" (Einfügen) auf der Tastatur umschalten
 UserInputService.InputBegan:Connect(function(input, gpe)
     if gpe then return end
     if input.KeyCode == Enum.KeyCode.Insert then
