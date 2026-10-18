@@ -6,6 +6,9 @@ local Lighting = game:GetService("Lighting")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
+-- WICHTIG: Wartet, bis der Charakter im Spiel wirklich da ist, bevor die Buttons geladen werden!
+local character = player.Character or player.CharacterAdded:Wait()
+
 -- Verhindert, dass das Script doppelt geladen wird
 if playerGui:FindFirstChild("C00lkiddHub") then
     playerGui:FindFirstChild("C00lkiddHub"):Destroy()
@@ -71,7 +74,7 @@ local function createButton(text, callback)
 end
 
 -- ========================================================
--- FEATURE-LOGIK & BUTTONS
+-- FEATURE-LOGIK & BUTTONS (Werden jetzt sicher geladen)
 -- ========================================================
 
 -- 1. Super Speed
