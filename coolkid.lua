@@ -1,17 +1,21 @@
--- Erstellt die UI im geschützten CoreGui (perfekt für Xeno)
-local CoreGui = game:GetService("CoreGui")
+-- Erstellt die UI im erlaubten PlayerGui (Verhindert den CoreGui-Block von Roblox)
+local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local Lighting = game:GetService("Lighting")
 
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
 -- Verhindert, dass das Script doppelt geladen wird
-if CoreGui:FindFirstChild("C00lkiddHub") then
-    CoreGui:FindFirstChild("C00lkiddHub"):Destroy()
+if playerGui:FindFirstChild("C00lkiddHub") then
+    playerGui:FindFirstChild("C00lkiddHub"):Destroy()
 end
 
 -- Haupt-Screengui
 local sg = Instance.new("ScreenGui")
 sg.Name = "C00lkiddHub"
-sg.Parent = CoreGui
+sg.ResetOnSpawn = false -- Sorgt dafür, dass das Menü beim Sterben NICHT verschwindet
+sg.Parent = playerGui
 
 -- Das Hauptfenster (Schwarz mit rotem Rand)
 local frame = Instance.new("Frame")
@@ -21,7 +25,7 @@ frame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 frame.BorderColor3 = Color3.fromRGB(255, 0, 0)
 frame.BorderSizePixel = 2
 frame.Active = true
-frame.Draggable = true
+frame.Draggable = true -- Macht das Fenster verschiebbar
 frame.Parent = sg
 
 -- Titel-Zeile
@@ -69,7 +73,6 @@ end
 -- ========================================================
 -- FEATURE-LOGIK & BUTTONS
 -- ========================================================
-local player = game.Players.LocalPlayer
 
 -- 1. Super Speed
 createButton("Super Speed", function()
